@@ -1,7 +1,7 @@
-class Textnode:
-    def __init__(self, text, text_type, url):
+class TextNode:
+    def __init__(self, text, tect_type, url=None):
         self.text = text
-        self.text_type = text_type
+        self.text_type = tect_type
         self.url = url
     def __eq__(self, other):
         if (self.text == other.text and self.text_type == other.text_type and
@@ -9,8 +9,3 @@ class Textnode:
             return True
     def __repr__(self):
         return f"TextNode({self.text}, {self.text_type}, {self.url})"
-
-def main():
-    node = Textnode("This is a text node", "bold", "https://boot.dev")
-    print("test")
-    return __repr__(node)

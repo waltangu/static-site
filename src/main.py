@@ -1,4 +1,6 @@
 def main():
-    from textnode import Textnode
+    from textnode import TextNode
     node = Textnode("This is a text node", "bold", "https://boot.dev")
-    return node.__repr__
+    print(node.__repr__)
+main()
+
