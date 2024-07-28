@@ -16,7 +16,8 @@ class TestHTMLNode(unittest.TestCase):
         children = [Child1, Child2]
         node = HTMLNode("a", "Text inside paragraph", children, {"href": "https://www.google.com", 
         "target": "_blank"})
-        print(node.__repr__)
+        self.assertEqual(node.__repr__(), "tag = a, value = Text inside paragraph, children = [tag = a, value = Hello Child1, children = None, props = None, tag = h1, value = Hello Child2, children = None, props = None], props = {'href': 'https://www.google.com', 'target': '_blank'}")
+        #print(node.__repr__())
     
     def test_no_input(self):
         node = HTMLNode()
