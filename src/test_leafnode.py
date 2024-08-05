@@ -5,18 +5,18 @@ from htmlnode import LeafNode
 
 class TestLeafNode(unittest.TestCase):
     def test_none_value(self):
-        try:    
+        try:
             node = LeafNode(None, None, None)
             node.to_html()
         except ValueError:
-            print("ValueError raised succesfully for Value=None")
+           print(".")
 
     def test_blank_value(self):
         node = LeafNode(None, "", None)
         try:    
             node.to_html()
         except ValueError:
-            print('ValueError raised succesfully for Value="" ')         
+            print(".")         
                          
     def test_no_tag(self):
         node = LeafNode(None, "raw text", None)
