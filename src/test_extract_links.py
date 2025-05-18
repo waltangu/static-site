@@ -1,6 +1,5 @@
 import unittest
 from extract_links import *
-from htmlnode import HTMLNode
 
 
 
@@ -20,3 +19,6 @@ class TestExtractLinks(unittest.TestCase):
     def test_extract_multiple_links(self):
         matches = extract_markdown_links("This is text with two links [link1](https://i.imgur.com) and  [link2](https://optical.toys/)")
         self.assertListEqual([("link1", "https://i.imgur.com"), ("link2", "https://optical.toys/")], matches)
+
+    def test_no_matches(self):
+        self.assertListEqual([], extract_markdown_images("No image in this text!"))
