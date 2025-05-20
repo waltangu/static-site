@@ -4,14 +4,15 @@ from textnode import *
 def extract_markdown_images(text):
     return re.findall(r"!\[(.*?)\]\((https?:\/\/.*?\..*?)\)", text)
   
+
 def extract_markdown_links(text):
     return re.findall(r"(?<!!)\[(.*?)\]\((https?:\/\/.*?\..*?)\)", text)
+
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
     new_nodes = []
     split_text = []
     allowed_delimiters = ["`",'*',"**","_", "__"] #code, bold, italics
-
     for old_node in old_nodes:
         if old_node.text_type != TextType.TEXT:
             new_nodes.append(old_node)
@@ -28,26 +29,24 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
                     new_nodes.append(TextNode(split_text[i], TextType.TEXT))
                 else:
                     new_nodes.append(TextNode(split_text[i], text_type))
-    
     # Remove empty TextNodes:
     for new_node in new_nodes:
         if new_node.text == "":
             new_nodes.remove(new_node)
-
     return new_nodes
+
 
 def split_nodes_image(old_nodes):
     result = []
     for old_node in old_nodes:
         if old_node.text_type != TextType.TEXT:
             result.append(old_node)
-            continue
-            
+            continue   
         image_tuples = extract_markdown_images(old_node.text)
         if not image_tuples:
             result.append(old_node)
             continue
-            
+        
         # Process the first image
         image_alt, image_url = image_tuples[0]
         parts = old_node.text.split(f"![{image_alt}]({image_url})", 1)
