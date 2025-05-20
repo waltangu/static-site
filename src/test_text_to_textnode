@@ -1,6 +1,6 @@
 import unittest
 
-from text_to_textnodes import *
+from inline import *
 
 class TestBuildTextNodes(unittest.TestCase):
     def test_the_biggun(self):

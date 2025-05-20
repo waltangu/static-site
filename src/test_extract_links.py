@@ -1,5 +1,5 @@
 import unittest
-from extract_links import *
+from inline import *
 
 
 

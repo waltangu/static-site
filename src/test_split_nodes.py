@@ -1,7 +1,7 @@
 import unittest
 
 from textnode import *
-from split_nodes import *
+from inline import *
 
 
 class TestSplitNodes(unittest.TestCase):

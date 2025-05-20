@@ -1,8 +1,42 @@
-from extract_links import *
+import re
 from textnode import *
 
+def extract_markdown_images(text):
+    return re.findall(r"!\[(.*?)\]\((https?:\/\/.*?\..*?)\)", text)
+  
+def extract_markdown_links(text):
+    return re.findall(r"(?<!!)\[(.*?)\]\((https?:\/\/.*?\..*?)\)", text)
+
+def split_nodes_delimiter(old_nodes, delimiter, text_type):
+    new_nodes = []
+    split_text = []
+    allowed_delimiters = ["`",'*',"**","_", "__"] #code, bold, italics
+
+    for old_node in old_nodes:
+        if old_node.text_type != TextType.TEXT:
+            new_nodes.append(old_node)
+        elif delimiter not in allowed_delimiters:
+            raise NameError(f"Delimiter '{delimiter}' is not recognized.")
+        elif delimiter not in old_node.text:
+            new_nodes.append(old_node)
+        elif old_node.text.count(delimiter)%2 != 0:
+            raise SyntaxError(f"Markdown string '{old_node.text}' must include closing delimiter.")
+        else:
+            split_text.extend(old_node.text.split(delimiter))
+            for i in range(0, len(split_text)):
+                if i%2  == 0:
+                    new_nodes.append(TextNode(split_text[i], TextType.TEXT))
+                else:
+                    new_nodes.append(TextNode(split_text[i], text_type))
+    
+    # Remove empty TextNodes:
+    for new_node in new_nodes:
+        if new_node.text == "":
+            new_nodes.remove(new_node)
+
+    return new_nodes
+
 def split_nodes_image(old_nodes):
-    #Boots:
     result = []
     for old_node in old_nodes:
         if old_node.text_type != TextType.TEXT:
@@ -61,3 +95,16 @@ def split_nodes_link(old_nodes):
             result.extend(remaining_nodes)
 
     return result
+
+def text_to_textnodes(text):
+    node = TextNode(text, TextType.TEXT)
+    extract_markdown_links(
+        extract_markdown_links(
+            split_nodes_delimiter(
+                split_nodes_delimiter(
+                    split_nodes_delimiter(
+                        node, "**", TextType.BOLD), "_", TextType.ITALIC
+                ), "`", TextType.CODE  
+            )
+        )
+    )
