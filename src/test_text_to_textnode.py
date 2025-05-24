@@ -17,4 +17,4 @@ class TestBuildTextNodes(unittest.TestCase):
                 TextNode(" and a ", TextType.TEXT),
                 TextNode("link", TextType.LINK, "https://boot.dev"),
                 ]
-        self.assertListEqual(text_to_textnodes(text))
+        self.assertListEqual(text_to_textnodes(text), expected)
